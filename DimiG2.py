@@ -1794,7 +1794,6 @@ def run_gcn(lr = 0.0001, num_neu = 3, weight_decay = 0.001, dropout = 0.8, hiera
     adj = []
     features = []
     adj, features, labels, idx_train, idx_val, idx_test, all_dis, new_mirna_disease, disease_miRNA_data, mirna_len, unlabel_pcg = read_expression_data( )
-    #adj, features, labels, idx_train, idx_val, idx_test, all_dis, new_mirna_disease, disease_miRNA_data = read_expression_data('/home/panxy/project/coexpression/data/GSE43520/genes.fpkm_table', data =1)
     print adj.shape, features.shape, labels.shape, idx_train.shape, idx_val.shape, idx_test.shape, mirna_len
     #pdb.set_trace()
     # Model and optimizer
@@ -1806,20 +1805,16 @@ def run_gcn(lr = 0.0001, num_neu = 3, weight_decay = 0.001, dropout = 0.8, hiera
     #pdb.set_trace()
     num_dis = len(all_dis)
     model = GCN(nfeat=features.shape[1], nhid=num_dis*num_neu, nclass=num_dis, dropout=dropout)
-    #model = GAT(nfeat=features.shape[1], nhid=num_dis*num_neu, nclass=num_dis, dropout=dropout, alpha=0.2, nheads = 8)
-    #model = AGNN(nfeat=features.shape[1], nhid=num_dis*num_neu, nclass=num_dis, dropout=dropout)
 
     optimizer = optim.Adam(model.parameters(), lr=lr, weight_decay=weight_decay)
 
-    #optimizer = optim.SGD(model.parameters(), lr=0.01)
-    #linear_paras = model.gc2.weight
+
     is_hierar = True
 
     hierar_relations = get_disease_hier(all_dis)
     #pdb.set_trace()
-    #class_weight = 1/torch.sum(labels, dim=0)
     if is_hierar:
-        criterion = loss.ClassificationLoss(num_dis)#, loss_type='SigmoidFocalCrossEntropy', alpha = alpha)
+        criterion = loss.ClassificationLoss(num_dis)
     else:
         criterion = nn.BCELoss()
     criterion1 = nn.BCELoss()
@@ -1844,9 +1839,6 @@ def run_gcn(lr = 0.0001, num_neu = 3, weight_decay = 0.001, dropout = 0.8, hiera
 
     # Testing
     auc_test = test(model, features, adj, labels, idx_test[:mirna_len], all_dis, new_mirna_disease, disease_miRNA_data, criterion1)
-
-    #test pcg
-    auc_test1 = test_pcg(model, features, adj, labels, idx_test[mirna_len:], all_dis, new_mirna_disease, unlabel_pcg, criterion1)
 
     return auc_test, auc_train
 
