@@ -1631,17 +1631,6 @@ def calculate_auc(output, all_dis, new_mirna_disease, disease_miRNA_list):
             #new_key = (disease_miRNA_list[i], all_dis[j])
             #predi_mirna_dis[new_key] = output[i, j]
 
-    fw1 = open('gencode_dimig_vp7.csv', 'w')
-    mir_str = "\t".join(map(str, disease_miRNA_list))
-    fw1.write(mir_str)
-    fw1.write('\n')
-    for j in range(len(all_dis)):
-        fw1.write(all_dis[j] + '\t')
-        scores = output[:, j]
-        sco_str = "\t".join(map(str, scores))
-        fw1.write(sco_str + '\n')
-
-    fw1.close()
 
     disease_mirna_dict = {}
     print 'disease'
@@ -1679,13 +1668,6 @@ def calculate_auc(output, all_dis, new_mirna_disease, disease_miRNA_list):
             labels.append(0)
             i = mirna_dict[mirna]
             probs.append(output[i, j])
-
-    fw = open('dimig_vp7.txt', 'w')
-    fw.write('\t'.join(map(str, labels)))
-    fw.write('\n')
-    fw.write('\t'.join(map(str, probs)))
-    fw.write('\n')
-    fw.close()
 
     print len(probs)
     fpr, tpr, thresholds = roc_curve(labels, probs)  # probas_[:, 1])
@@ -1732,17 +1714,6 @@ def test(model, features, adj, labels, idx_test, all_dis, new_mirna_disease, dis
     print auc_test
     return auc_test
 
-def test_pcg(model, features, adj, labels, idx_test, all_dis, new_mirna_disease, unlabel_pcg, criteria = None):
-    model.eval()
-    output = model(features, adj)
-    #pdb.set_trace()
-    loss_test = criteria(output[idx_test], labels[idx_test])
-    auc_test = calculate_auc(1 - output[idx_test].data.cpu().numpy(), all_dis, new_mirna_disease, unlabel_pcg)
-
-    print("Test set results:",
-          "loss= {:.4f}".format(loss_test.item()))
-    print auc_test
-    return auc_test
 
 def get_hierar_relations(hierar_taxonomy, label_map):
     """ get parent-children relationships from given hierar_taxonomy
