@@ -12,11 +12,12 @@ Here we modified the orginal GCN (https://github.com/tkipf/pygcn) to support mul
 ```python setup.py install```
 
 # Data depedency: <br>
+We aleardy uploaded some data used in this study to the repository under the directory data/, and other big files can be accessed as belows: <br>
    - PCG-PCG interaction file "9606.protein.links.v10.txt.gz" can be downloaded from <a href="https://string-db.org/">STRING</a> v10 database. <br>
    - Disease-PCG assications file "human_disease_integrated_full.tsv" can be downloaded from <a href="https://diseases.jensenlab.org/Downloads">DISEASES </a> database. We also upload the file human_disease_integrated_full.zip in this repository, please decompress it at directory data/.  <br>
    - PCG-miRNA interaction file "9606.v1.combined.tsv.gz" can be downloaded from <a href="https://rth.dk/resources/rain/">RAIN</a> v1.0 database. <br>
    - GTEx_Analysis_2016-01-15_v7_RNASeQCv1.1.8_gene_median_tpm.gct.gz from GTEx website <br>
    - gencode.v19.genes.v7.patched_contigs.gtf.gz  from GTEx website <br>
-   - The above three files need be saved at dir "data/". <br> 
+   - The above five files need be saved at dir "data/". <br> 
 
 
